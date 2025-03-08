@@ -3,27 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Katmai Quantum - Advanced 1-Qubit System</title>
+    <title>Katmai Computing <|> - Advanced 1-Qubit System</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
         
         :root {
-            --primary: #7c3aed;
-            --primary-dark: #6d28d9;
-            --primary-glow: #8b5cf6;
-            --secondary: #c026d3;
-            --accent: #a855f7;
-            --accent-dark: #9333ea;
-            --bg-dark: #0f0720;
-            --bg-card: #1e1b2e;
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --primary-glow: #60a5fa;
+            --secondary: #818cf8;
+            --accent: #7c3aed;
+            --accent-dark: #6d28d9;
+            --bg-dark: #0c1425;
+            --bg-card: #1e293b;
             --text-main: #f1f5f9;
-            --text-dim: #a8a3b8;
+            --text-dim: #94a3b8;
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
-            --info: #818cf8;
+            --info: #38bdf8;
+            --tertiary: #6366f1;
         }
         
         body {
@@ -59,8 +60,8 @@
         .neo-card:hover {
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 
                         inset 0 1px 0 rgba(255, 255, 255, 0.1),
-                        0 0 10px rgba(37, 99, 235, 0.2);
-            transform: translateY(-1px);
+                        0 0 15px rgba(59, 130, 246, 0.3);
+            transform: translateY(-2px);
         }
         
         .gradient-border {
@@ -191,11 +192,18 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            opacity: 0.07;
+            opacity: 0.05;
             background-image: 
                 linear-gradient(to right, var(--primary-glow) 1px, transparent 1px),
                 linear-gradient(to bottom, var(--primary-glow) 1px, transparent 1px);
             background-size: 40px 40px;
+            animation: gridPulse 8s infinite ease-in-out;
+        }
+        
+        @keyframes gridPulse {
+            0% { opacity: 0.03; }
+            50% { opacity: 0.07; }
+            100% { opacity: 0.03; }
         }
         
         .floating {
@@ -293,27 +301,36 @@
             position: absolute;
             background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
             border-radius: 50%;
-            opacity: 0.3;
-            animation: quantumFloat 10s infinite;
+            opacity: 0.15;
+            animation: quantumFloat 20s infinite ease-in-out;
+            filter: blur(40px);
+            z-index: -1;
         }
         
         @keyframes quantumFloat {
-            0% { transform: translate(0, 0); opacity: 0.2; }
-            25% { transform: translate(10px, -10px); opacity: 0.3; }
-            50% { transform: translate(0, -20px); opacity: 0.2; }
-            75% { transform: translate(-10px, -10px); opacity: 0.3; }
-            100% { transform: translate(0, 0); opacity: 0.2; }
+            0% { transform: translate(0, 0) scale(1); opacity: 0.12; }
+            25% { transform: translate(20px, -20px) scale(1.1); opacity: 0.18; }
+            50% { transform: translate(0, -30px) scale(0.9); opacity: 0.12; }
+            75% { transform: translate(-20px, -10px) scale(1.05); opacity: 0.15; }
+            100% { transform: translate(0, 0) scale(1); opacity: 0.12; }
         }
 
         /* Bloch sphere */
         .bloch-sphere {
             position: relative;
-            width: 120px;
-            height: 120px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
             background: radial-gradient(circle at 30% 30%, #ffffff, #2563eb);
-            box-shadow: 0 0 20px rgba(37, 99, 235, 0.4);
+            box-shadow: 0 0 30px rgba(37, 99, 235, 0.5);
             margin: 0 auto;
+            transform-style: preserve-3d;
+            animation: rotateSphere 30s infinite linear;
+        }
+        
+        @keyframes rotateSphere {
+            0% { transform: rotateY(0deg) rotateX(20deg); }
+            100% { transform: rotateY(360deg) rotateX(20deg); }
         }
         
         .bloch-sphere::before {
@@ -334,10 +351,23 @@
             left: 50%;
             width: 80%;
             height: 2px;
-            background: #ef4444;
+            background: linear-gradient(90deg, #ef4444, #f97316);
             transform-origin: left;
             z-index: 2;
-            animation: rotateArrow 10s linear infinite;
+            animation: rotateArrow 8s linear infinite;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
+        }
+        
+        .bloch-arrow::after {
+            content: '';
+            position: absolute;
+            right: -3px;
+            top: -3px;
+            width: 8px;
+            height: 8px;
+            background: #ef4444;
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(239, 68, 68, 0.8);
         }
         
         @keyframes rotateArrow {
@@ -511,9 +541,11 @@
     <div class="quantum-grid"></div>
     
     <!-- Quantum particles -->
-    <div class="quantum-particle" style="width: 100px; height: 100px; top: 20%; left: 80%;"></div>
-    <div class="quantum-particle" style="width: 120px; height: 120px; top: 60%; left: 10%;"></div>
-    <div class="quantum-particle" style="width: 80px; height: 80px; top: 40%; left: 50%;"></div>
+    <div class="quantum-particle" style="width: 150px; height: 150px; top: 15%; left: 85%; animation-delay: 0s;"></div>
+    <div class="quantum-particle" style="width: 180px; height: 180px; top: 65%; left: 5%; animation-delay: 2s;"></div>
+    <div class="quantum-particle" style="width: 120px; height: 120px; top: 45%; left: 55%; animation-delay: 4s;"></div>
+    <div class="quantum-particle" style="width: 100px; height: 100px; top: 25%; left: 25%; animation-delay: 1s;"></div>
+    <div class="quantum-particle" style="width: 160px; height: 160px; top: 70%; left: 75%; animation-delay: 3s;"></div>
     
     <div class="flex flex-col min-h-screen">
         <!-- Header -->
@@ -525,7 +557,7 @@
                             <div class="absolute inset-0 bg-primary opacity-20 rounded-md group-hover:opacity-30 transition-opacity"></div>
                             <span class="text-2xl orbitron font-bold glow">&lt;|&gt;</span>
                         </div>
-                        <span class="orbitron text-xl font-semibold tracking-wider">KATMAI <span class="text-primary">QUANTUM</span></span>
+                        <span class="orbitron text-xl font-semibold tracking-wider">KATMAI <span class="text-primary">COMPUTING</span></span>
                     </div>
                     
                     <div class="flex items-center space-x-6">
@@ -691,8 +723,21 @@
 
             <!-- Mobile menu button -->
             <div class="fixed bottom-4 left-4 z-50 md:hidden">
-                <button id="mobile-menu-btn" class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center shadow-lg">
-                    <i class="fas fa-bars"></i>
+                <button id="mobile-menu-btn" class="w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center shadow-lg relative overflow-hidden group">
+                    <div class="absolute inset-0 bg-black bg-opacity-20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="absolute inset-0 bg-gradient-to-tr from-primary-dark to-transparent opacity-30"></div>
+                    <i class="fas fa-bars relative z-10"></i>
+                    <div class="absolute -inset-2 bg-gradient-to-r from-primary via-tertiary to-primary opacity-0 group-hover:opacity-20 blur-xl transition-opacity"></div>
+                </button>
+            </div>
+            
+            <!-- Quick action floating button -->
+            <div class="fixed bottom-4 right-4 z-50 md:hidden">
+                <button id="quick-action-btn" class="w-14 h-14 rounded-full bg-accent text-white flex items-center justify-center shadow-lg relative overflow-hidden group">
+                    <div class="absolute inset-0 bg-black bg-opacity-20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="absolute inset-0 bg-gradient-to-tr from-accent-dark to-transparent opacity-30"></div>
+                    <i class="fas fa-bolt relative z-10"></i>
+                    <div class="absolute -inset-2 bg-gradient-to-r from-accent via-primary to-accent opacity-0 group-hover:opacity-20 blur-xl transition-opacity"></div>
                 </button>
             </div>
 
@@ -713,7 +758,7 @@
                             <i class="fas fa-info-circle text-xl"></i>
                         </div>
                         <div>
-                            <h3 class="font-medium text-primary">Welcome to the Katmai Quantum Control Interface</h3>
+                            <h3 class="font-medium text-primary">Welcome to the Katmai Computing &lt;|&gt; Control Interface</h3>
                             <p class="text-sm mt-1">Your 1-qubit quantum system is running optimally. Check the Quantum State Analysis section for detailed coherence metrics.</p>
                         </div>
                     </div>
@@ -1155,7 +1200,7 @@
                                         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
                                             <defs>
                                                 <pattern id="grid2" width="40" height="40" patternUnits="userSpaceOnUse">
-                                                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(124,58,237,0.3)" stroke-width="1"/>
+                                                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(59,130,246,0.3)" stroke-width="1"/>
                                                 </pattern>
                                             </defs>
                                             <rect width="100%" height="100%" fill="url(#grid2)" />
@@ -1164,42 +1209,57 @@
                                     
                                     <div class="relative z-10 flex items-end h-full space-x-6 justify-center">
                                         <div class="flex flex-col items-center">
-                                            <div class="w-16 bg-primary bg-opacity-20 rounded-md">
-                                                <div class="bg-primary h-32 rounded-t-md"></div>
+                                            <div class="w-16 bg-card border border-primary border-opacity-30 rounded-md overflow-hidden">
+                                                <div class="bg-gradient-to-t from-primary to-tertiary h-32 rounded-t-md relative">
+                                                    <div class="absolute inset-0 bg-black bg-opacity-10"></div>
+                                                    <div class="h-1/3 w-full absolute bottom-0 left-0 bg-gradient-to-t from-black to-transparent opacity-20"></div>
+                                                </div>
                                             </div>
-                                            <div class="text-xs mt-2">CPU</div>
+                                            <div class="text-xs mt-2 font-medium">CPU</div>
                                             <div class="text-xs text-primary">24%</div>
                                         </div>
                                         
                                         <div class="flex flex-col items-center">
-                                            <div class="w-16 bg-primary bg-opacity-20 rounded-md">
-                                                <div class="bg-primary h-48 rounded-t-md"></div>
+                                            <div class="w-16 bg-card border border-primary border-opacity-30 rounded-md overflow-hidden">
+                                                <div class="bg-gradient-to-t from-primary to-tertiary h-48 rounded-t-md relative">
+                                                    <div class="absolute inset-0 bg-black bg-opacity-10"></div>
+                                                    <div class="h-1/3 w-full absolute bottom-0 left-0 bg-gradient-to-t from-black to-transparent opacity-20"></div>
+                                                </div>
                                             </div>
-                                            <div class="text-xs mt-2">Memory</div>
+                                            <div class="text-xs mt-2 font-medium">Memory</div>
                                             <div class="text-xs text-primary">46%</div>
                                         </div>
                                         
                                         <div class="flex flex-col items-center">
-                                            <div class="w-16 bg-primary bg-opacity-20 rounded-md">
-                                                <div class="bg-primary h-24 rounded-t-md"></div>
+                                            <div class="w-16 bg-card border border-primary border-opacity-30 rounded-md overflow-hidden">
+                                                <div class="bg-gradient-to-t from-primary to-tertiary h-24 rounded-t-md relative">
+                                                    <div class="absolute inset-0 bg-black bg-opacity-10"></div>
+                                                    <div class="h-1/3 w-full absolute bottom-0 left-0 bg-gradient-to-t from-black to-transparent opacity-20"></div>
+                                                </div>
                                             </div>
-                                            <div class="text-xs mt-2">Disk I/O</div>
+                                            <div class="text-xs mt-2 font-medium">Disk I/O</div>
                                             <div class="text-xs text-primary">15%</div>
                                         </div>
                                         
                                         <div class="flex flex-col items-center">
-                                            <div class="w-16 bg-primary bg-opacity-20 rounded-md">
-                                                <div class="bg-primary h-16 rounded-t-md"></div>
+                                            <div class="w-16 bg-card border border-primary border-opacity-30 rounded-md overflow-hidden">
+                                                <div class="bg-gradient-to-t from-primary to-tertiary h-16 rounded-t-md relative">
+                                                    <div class="absolute inset-0 bg-black bg-opacity-10"></div>
+                                                    <div class="h-1/3 w-full absolute bottom-0 left-0 bg-gradient-to-t from-black to-transparent opacity-20"></div>
+                                                </div>
                                             </div>
-                                            <div class="text-xs mt-2">Network</div>
+                                            <div class="text-xs mt-2 font-medium">Network</div>
                                             <div class="text-xs text-primary">10%</div>
                                         </div>
                                         
                                         <div class="flex flex-col items-center">
-                                            <div class="w-16 bg-primary bg-opacity-20 rounded-md">
-                                                <div class="bg-primary h-40 rounded-t-md"></div>
+                                            <div class="w-16 bg-card border border-primary border-opacity-30 rounded-md overflow-hidden">
+                                                <div class="bg-gradient-to-t from-primary to-tertiary h-40 rounded-t-md relative">
+                                                    <div class="absolute inset-0 bg-black bg-opacity-10"></div>
+                                                    <div class="h-1/3 w-full absolute bottom-0 left-0 bg-gradient-to-t from-black to-transparent opacity-20"></div>
+                                                </div>
                                             </div>
-                                            <div class="text-xs mt-2">QPU</div>
+                                            <div class="text-xs mt-2 font-medium">QPU</div>
                                             <div class="text-xs text-primary">38%</div>
                                         </div>
                                     </div>
@@ -1555,7 +1615,7 @@
                             </div>
                             <div class="h-px bg-white bg-opacity-10 flex-grow"></div>
                         </div>
-                        <div class="text-sm">KATMAI QUANTUM · RP2350 1-QUBIT SYSTEM</div>
+                        <div class="text-sm">KATMAI COMPUTING &lt;|&gt; · RP2350 1-QUBIT SYSTEM</div>
                         <div class="text-xs text-text-dim mt-1">Firmware v2.7.4 · Serial: KTM-24-0582-QC</div>
                     </footer>
                 </div>
@@ -1564,25 +1624,160 @@
     </div>
     
     <script>
-        // Display current time
+        // Display current time with blinking colon
         function updateTime() {
             const now = new Date();
-            const time = now.toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
-            document.getElementById('time').innerText = time;
+            let time = now.toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            
+            // Add blinking effect to the colons every second
+            const timeElement = document.getElementById('time');
+            if (timeElement) {
+                if (timeElement.classList.contains('blink-colon')) {
+                    time = time.replace(/:/g, '<span class="opacity-40">:</span>');
+                }
+                timeElement.innerHTML = time;
+                timeElement.classList.toggle('blink-colon');
+            }
         }
         
-        // Update time every second
+        // Update time every 500ms for smoother blinking
         updateTime();
-        setInterval(updateTime, 1000);
+        setInterval(updateTime, 500);
         
         // Mobile menu toggle
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         if (mobileMenuBtn) {
             mobileMenuBtn.addEventListener('click', function() {
-                // Mobile menu functionality would go here
-                alert('Mobile menu clicked');
+                // Create a mobile drawer menu
+                let overlay = document.querySelector('.mobile-menu-overlay');
+                
+                if (!overlay) {
+                    // Create menu overlay if it doesn't exist
+                    overlay = document.createElement('div');
+                    overlay.className = 'mobile-menu-overlay fixed inset-0 bg-black bg-opacity-70 z-40 transform translate-x-full transition-transform duration-300 ease-in-out';
+                    
+                    const menuContent = document.createElement('div');
+                    menuContent.className = 'h-full w-4/5 ml-auto bg-bg-dark border-l border-white border-opacity-10 p-6 overflow-y-auto';
+                    
+                    // Clone sidebar content
+                    const sidebar = document.querySelector('aside');
+                    if (sidebar) {
+                        const sidebarContent = sidebar.querySelector('.relative.z-10');
+                        if (sidebarContent) {
+                            menuContent.innerHTML = sidebarContent.innerHTML;
+                        }
+                    }
+                    
+                    // Add close button
+                    const closeBtn = document.createElement('button');
+                    closeBtn.className = 'absolute top-4 right-4 text-text-dim hover:text-white transition-colors';
+                    closeBtn.innerHTML = '<i class="fas fa-times text-xl"></i>';
+                    closeBtn.addEventListener('click', function() {
+                        overlay.classList.add('translate-x-full');
+                        setTimeout(() => {
+                            document.body.removeChild(overlay);
+                        }, 300);
+                    });
+                    
+                    menuContent.appendChild(closeBtn);
+                    overlay.appendChild(menuContent);
+                    document.body.appendChild(overlay);
+                    
+                    // Show menu with animation
+                    setTimeout(() => {
+                        overlay.classList.remove('translate-x-full');
+                    }, 10);
+                } else {
+                    // Toggle existing menu
+                    if (overlay.classList.contains('translate-x-full')) {
+                        overlay.classList.remove('translate-x-full');
+                    } else {
+                        overlay.classList.add('translate-x-full');
+                        setTimeout(() => {
+                            if (overlay.parentNode) {
+                                document.body.removeChild(overlay);
+                            }
+                        }, 300);
+                    }
+                }
             });
         }
+        
+        // Quick action button
+        const quickActionBtn = document.getElementById('quick-action-btn');
+        if (quickActionBtn) {
+            quickActionBtn.addEventListener('click', function() {
+                // Create popup menu
+                let actionMenu = document.querySelector('.quick-action-menu');
+                
+                if (!actionMenu) {
+                    actionMenu = document.createElement('div');
+                    actionMenu.className = 'quick-action-menu fixed bottom-20 right-4 z-40 bg-bg-card rounded-lg shadow-xl border border-white border-opacity-10 p-2 transform scale-95 opacity-0 transition-all duration-200';
+                    
+                    // Add quick actions
+                    const actions = [
+                        { icon: 'fa-sync', label: 'Recalibrate' },
+                        { icon: 'fa-chart-line', label: 'Metrics' },
+                        { icon: 'fa-code', label: 'Circuit' },
+                        { icon: 'fa-shield-alt', label: 'Security' }
+                    ];
+                    
+                    actions.forEach(action => {
+                        const btn = document.createElement('button');
+                        btn.className = 'flex items-center w-full p-3 rounded-md hover:bg-primary hover:bg-opacity-20 transition-colors text-left';
+                        btn.innerHTML = `
+                            <div class="w-8 h-8 rounded-full bg-primary bg-opacity-20 flex items-center justify-center mr-3">
+                                <i class="fas ${action.icon} text-primary text-xs"></i>
+                            </div>
+                            <span class="text-sm">${action.label}</span>
+                        `;
+                        actionMenu.appendChild(btn);
+                    });
+                    
+                    document.body.appendChild(actionMenu);
+                    
+                    // Show menu with animation
+                    setTimeout(() => {
+                        actionMenu.classList.remove('scale-95', 'opacity-0');
+                        actionMenu.classList.add('scale-100', 'opacity-100');
+                    }, 10);
+                    
+                    // Close menu when clicking elsewhere
+                    document.addEventListener('click', function closeMenu(e) {
+                        if (!actionMenu.contains(e.target) && e.target !== quickActionBtn) {
+                            actionMenu.classList.add('scale-95', 'opacity-0');
+                            setTimeout(() => {
+                                if (actionMenu.parentNode) {
+                                    document.body.removeChild(actionMenu);
+                                }
+                            }, 200);
+                            document.removeEventListener('click', closeMenu);
+                        }
+                    });
+                } else {
+                    // Remove existing menu
+                    actionMenu.classList.add('scale-95', 'opacity-0');
+                    setTimeout(() => {
+                        if (actionMenu.parentNode) {
+                            document.body.removeChild(actionMenu);
+                        }
+                    }, 200);
+                }
+            });
+        }
+        
+        // Initialize tooltips and interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate progress bars on load
+            const progressBars = document.querySelectorAll('.cyber-progress-bar');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 300);
+            });
+        });
     </script>
 </body>
 </html>
